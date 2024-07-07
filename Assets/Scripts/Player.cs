@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameLogic
+public class Player : MonoBehaviour
 {
-
+    public enum Role{cross, zero}
+    
 }
