@@ -1,12 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using GluonGui.Dialog;
-using PlasticGui;
-using UnityEngine;
-using UnityEngine.WSA;
-namespace Assets.Scripts.GameLogic
+namespace Assets.TictactoeLogic.Scripts
 {
     public class Field
     {

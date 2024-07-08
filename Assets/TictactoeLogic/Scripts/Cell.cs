@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Assets.Scripts.GameLogic
+namespace Assets.TictactoeLogic.Scripts
 {
     public class Cell
     {

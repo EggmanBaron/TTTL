@@ -1,8 +1,6 @@
-using System;
-using Assets.Scripts.GameLogic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
+using Assets.TictactoeLogic.Scripts;
 
 public class FieldTests
 {
