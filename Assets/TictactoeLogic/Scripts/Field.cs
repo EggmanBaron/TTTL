@@ -105,23 +105,27 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public override string ToString()
         {
-            string result = string.Empty;
-            result += "`  ,";
+            string beginning = "`   ,";
+            string empty = "    ,";
+            string marked = " {0} ,";
+            string indices = "{0}: ,";
+            string newString = "\n";
+            string result = beginning;
             for (int i = 0; i < _cells.GetLength(0); i++)
             {
-                result += string.Format(" {0} ,", i.ToString());
+                result += empty;
             }
-            result += "\n";
+            result += newString;
             for (int i = 0; i < _cells.GetLength(0); i++)
             {
-                result += string.Format("{0}: ,", i.ToString());
+                result += string.Format(indices, i.ToString());
                 for (int j = 0; j < _cells.GetLength(0); j++)
                 {
                     string role = _cells[i, j].Role;
                     if (role == null) { result += "    ,"; }
-                    else { result += string.Format(" {0} ,", role[0].ToString()); }
+                    else { result += string.Format(marked, role[0].ToString()); }
                 }
-                result += "\n";
+                result += newString;
             }
             return result;
         }
