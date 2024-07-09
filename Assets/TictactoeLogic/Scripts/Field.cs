@@ -57,7 +57,8 @@ namespace Assets.TictactoeLogic.Scripts
             int fieldMax = _cells.GetLength(0) - 1;
             int min = (i - winSize < 0) ? 0 : i - winSize;
             int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
-            Role role = _cells[i, j].Role;
+            string role = _cells[i, j].Role;
+            // Role role = _cells[i, j].Role;
             List<bool> conditions = new()
             {
                 LineCheck(role, LineType.Horizontal, min, max, jCurrent: j),
@@ -67,7 +68,7 @@ namespace Assets.TictactoeLogic.Scripts
             };
             return conditions.Contains(true);
         }
-        private bool LineCheck(Role role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
+        private bool LineCheck(string role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
         {
             bool result = false;
             int winSize = _gameSettings.winlineSize;
@@ -92,45 +93,33 @@ namespace Assets.TictactoeLogic.Scripts
             }
             return result;
         }
-        public bool SetCross(int i, int j)
+        public bool MakeMove(int i, int j, string role)
         {
             Cell cell = _cells[i, j];
-            if (cell.Role == Role.None)
+            if (cell.Role == null)
             {
-                cell.Role = Role.Cross;
+                cell.Role = role;
                 return true;
             }
-            return false;
-        }
-        public bool SetZero(int i, int j)
-        {
-            if (_cells[i, j].Role == Role.None)
-            {
-                _cells[i, j].Role = Role.Zero;
-                return true;
-            }
-            return false;
+            else return false;
         }
         public override string ToString()
         {
             string result = string.Empty;
+            result += "`  ,";
             for (int i = 0; i < _cells.GetLength(0); i++)
             {
-                result += string.Format("{0}: ", i.ToString());
+                result += string.Format(" {0} ,", i.ToString());
+            }
+            result += "\n";
+            for (int i = 0; i < _cells.GetLength(0); i++)
+            {
+                result += string.Format("{0}: ,", i.ToString());
                 for (int j = 0; j < _cells.GetLength(0); j++)
                 {
-                    switch (_cells[i, j].Role)
-                    {
-                        case Role.Zero:
-                            result += "[ o ]";
-                            continue;
-                        case Role.Cross:
-                            result += "[ x ]";
-                            continue;
-                        case Role.None:
-                            result += "[   ]";
-                            continue;
-                    }
+                    string role = _cells[i, j].Role;
+                    if (role == null) { result += "    ,"; }
+                    else { result += string.Format(" {0} ,", role[0].ToString()); }
                 }
                 result += "\n";
             }
@@ -144,17 +133,12 @@ namespace Assets.TictactoeLogic.Scripts
         {
             get { return _winLine; }
         }
-        public Role Winner
-        {
-            get { return _winner; }
-        }
         public int Size
         {
             get { return _cells.GetLength(0); }
         }
         private Cell[,] _cells;
         private readonly GameSettings _gameSettings;
-        private Role _winner;
         private Cell[,] _winLine;
         private enum LineType
         {

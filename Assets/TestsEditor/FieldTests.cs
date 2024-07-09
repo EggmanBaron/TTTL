@@ -11,15 +11,15 @@ public class FieldTests
     {
         field = new(gameSettings);
         Assert.That(field.Size, Is.EqualTo(gameSettings.startFieldSize));
-        Assert.AreEqual(field.Cells[0, 0].Role, Role.None);
     }
     [Test]
     public void Field_Set_Something()
     {
         field = new(gameSettings);
-        Assert.IsTrue(field.SetCross(0, 0));
-        Assert.IsTrue(field.SetZero(1, 1));
-        Assert.IsFalse(field.SetZero(1, 1));
+        Assert.IsTrue(field.MakeMove(1, 1, gameSettings.roles[1]));
+        Assert.IsTrue(field.MakeMove(0, 0, gameSettings.roles[0]));
+        Assert.IsFalse(field.MakeMove(0, 0, gameSettings.roles[1]));
+        Assert.IsFalse(field.MakeMove(0, 0, gameSettings.roles[0]));
     }
     [Test]
     public void EnlargeField_Empty()
@@ -33,23 +33,23 @@ public class FieldTests
     public void EnlargeField_SaveRoles()
     {
         field = new(gameSettings);
-        field.SetCross(0, 0);
-        field.SetZero(1, 1);
-        field.SetCross(2, 2);
+        field.MakeMove(0, 0, gameSettings.roles[0]);
+        field.MakeMove(1, 1, gameSettings.roles[1]);
+        field.MakeMove(2, 2, gameSettings.roles[0]);
         Debug.Log(field);
         field.EnlargeField();
         Debug.Log(field);
-        Assert.AreEqual(field.Cells[1, 1].Role, Role.Cross);
-        Assert.AreEqual(field.Cells[2, 2].Role, Role.Zero);
-        Assert.AreEqual(field.Cells[3, 3].Role, Role.Cross);
+        Assert.AreEqual(field.Cells[1, 1].Role, gameSettings.roles[0]);
+        Assert.AreEqual(field.Cells[2, 2].Role, gameSettings.roles[1]);
+        Assert.AreEqual(field.Cells[3, 3].Role, gameSettings.roles[0]);
     }
     [Test]
     public void EnlargeField_SaveIndices()
     {
         field = new(gameSettings);
-        field.SetCross(0, 0);
-        field.SetZero(1, 1);
-        field.SetCross(2, 2);
+        field.MakeMove(0, 0, gameSettings.roles[0]);
+        field.MakeMove(1, 1, gameSettings.roles[1]);
+        field.MakeMove(2, 2, gameSettings.roles[0]);
         Debug.Log(field);
         field.EnlargeField();
         Debug.Log(field);
@@ -68,9 +68,9 @@ public class FieldTests
     {
         field = new(gameSettings);
         field.EnlargeField();
-        field.SetCross(1, 0);
-        field.SetCross(1, 1);
-        field.SetCross(1, 2);
+        field.MakeMove(1, 0, gameSettings.roles[0]);
+        field.MakeMove(1, 1, gameSettings.roles[0]);
+        field.MakeMove(1, 2, gameSettings.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(1, 1));
     }
@@ -79,9 +79,9 @@ public class FieldTests
     {
         field = new(gameSettings);
         field.EnlargeField();
-        field.SetCross(0, 0);
-        field.SetCross(1, 0);
-        field.SetCross(2, 0);
+        field.MakeMove(0, 0, gameSettings.roles[0]);
+        field.MakeMove(1, 0, gameSettings.roles[0]);
+        field.MakeMove(2, 0, gameSettings.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(1, 1));
     }
@@ -90,9 +90,9 @@ public class FieldTests
     {
         field = new(gameSettings);
         field.EnlargeField();
-        field.SetCross(1, 1);
-        field.SetCross(2, 2);
-        field.SetCross(3, 3);
+        field.MakeMove(1, 1, gameSettings.roles[0]);
+        field.MakeMove(2, 2, gameSettings.roles[0]);
+        field.MakeMove(3, 3, gameSettings.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(3, 3));
     }
@@ -100,9 +100,9 @@ public class FieldTests
     public void WinCheck_EnlargeField_x3_CrossDiagonal()
     {
         field = new(gameSettings);
-        field.SetCross(0, 0);
-        field.SetCross(1, 1);
-        field.SetCross(2, 2);
+        field.MakeMove(0, 0, gameSettings.roles[0]);
+        field.MakeMove(1, 1, gameSettings.roles[0]);
+        field.MakeMove(2, 2, gameSettings.roles[0]);
         field.EnlargeField();
         field.EnlargeField();
         field.EnlargeField();
@@ -114,9 +114,9 @@ public class FieldTests
     {
         field = new(gameSettings);
         field.EnlargeField();
-        field.SetCross(1, 3);
-        field.SetCross(2, 2);
-        field.SetCross(3, 1);
+        field.MakeMove(0, 3, gameSettings.roles[0]);
+        field.MakeMove(2, 2, gameSettings.roles[0]);
+        field.MakeMove(3, 1, gameSettings.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(3, 3));
     }

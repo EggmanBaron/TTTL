@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.TictactoeLogic.Scripts
 {
@@ -11,5 +12,7 @@ namespace Assets.TictactoeLogic.Scripts
         public int enlargeFieldStep;
         [Tooltip("Size of winline")]
         public int winlineSize;
+        [Tooltip("Roles, cross, zero, etc.")]
+        public List<string> roles;
     }
 }

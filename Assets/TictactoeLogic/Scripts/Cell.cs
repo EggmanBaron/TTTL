@@ -1,3 +1,5 @@
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+
 namespace Assets.TictactoeLogic.Scripts
 {
     public class Cell
@@ -7,18 +9,12 @@ namespace Assets.TictactoeLogic.Scripts
             this.x = x;
             this.y = y;
         }
-        public Role Role
+        public string Role
         {
-            get { return role; }
-            set
-            {
-                if (role == Role.None)
-                {
-                    role = value;
-                }
-            }
+            get { return _role; }
+            set { _role ??= value; }
         }
-        private Role role = Role.None;
+        private string _role;
         public readonly int x;
         public readonly int y;
     }
