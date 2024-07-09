@@ -6,11 +6,4 @@ namespace Assets.TictactoeLogic.Scripts
         Zero,
         None
     }
-    public enum LineType
-    {
-        Horizontal,
-        Vertical,
-        Diagonal,
-        Antidiagonal
-    }
 }

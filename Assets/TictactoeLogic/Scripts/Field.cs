@@ -156,5 +156,12 @@ namespace Assets.TictactoeLogic.Scripts
         private readonly GameSettings _gameSettings;
         private Role _winner;
         private Cell[,] _winLine;
+        private enum LineType
+        {
+            Horizontal,
+            Vertical,
+            Diagonal,
+            Antidiagonal
+        }
     }
 }
