@@ -53,18 +53,19 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public bool WinCheck(int i, int j)
         {
-            bool result = false;
             int winSize = _gameSettings.winlineSize;
             int fieldMax = _cells.GetLength(0) - 1;
             int min = (i - winSize < 0) ? 0 : i - winSize;
             int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
             Role role = _cells[i, j].Role;
-            bool hor = LineCheck(role, LineType.Horizontal, min, max, jCurrent: j);
-            bool vert = LineCheck(role, LineType.Vertical, min, max, iCurrent: i);
-            bool diag = LineCheck(role, LineType.Diagonal, min, max);
-            bool antiDiag = LineCheck(role, LineType.Antidiagonal, min, max);
-            if (hor || vert || diag || antiDiag) { result = true; }
-            return result;
+            List<bool> conditions = new()
+            {
+                LineCheck(role, LineType.Horizontal, min, max, jCurrent: j),
+                LineCheck(role, LineType.Vertical, min, max, iCurrent: i),
+                LineCheck(role, LineType.Diagonal, min, max),
+                LineCheck(role, LineType.Antidiagonal, min, max)
+            };
+            return conditions.Contains(true);
         }
         private bool LineCheck(Role role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
         {
