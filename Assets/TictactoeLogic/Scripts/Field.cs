@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 namespace Assets.TictactoeLogic.Scripts
 {
     public class Field
@@ -20,25 +21,31 @@ namespace Assets.TictactoeLogic.Scripts
         public void EnlargeField()
         {
             var increment = _gameSettings.enlargeFieldStep;
-            var newFieldSize = increment * 2 + _cells.GetLength(0);
-            var enlargedField = new Cell[newFieldSize, newFieldSize];
-            for (int i = 0; i < newFieldSize; i++)
+            var fieldSize = _cells.GetLength(0);
+            var fieldSizeNew = increment * 2 + fieldSize;
+            var enlargedField = new Cell[fieldSizeNew, fieldSizeNew];
+            for (int i = 0; i < fieldSizeNew; i++)
             {
-                for (int j = 0; j < newFieldSize; j++)
+                for (int j = 0; j < fieldSizeNew; j++)
                 {
-                    int iShifted = i - increment;
-                    int jShifted = j - increment;
-                    bool iCondition = 0 <= iShifted && iShifted < _cells.GetLength(0);
-                    bool jCondition = 0 <= jShifted && jShifted < _cells.GetLength(0);
-                    if (iCondition && jCondition)
+                    List<bool> conditions = new()
                     {
-                        Cell cell = new(i, j);
-                        cell.Role = _cells[iShifted, jShifted].Role;
-                        enlargedField[i, j] = cell;
+                        i - increment >= 0,
+                        j - increment >= 0,
+                        i - increment < fieldSize,
+                        j - increment < fieldSize
+                    };
+                    if (conditions.Contains(false))
+                    {
+                        enlargedField[i, j] = new Cell(i, j);
                     }
                     else
                     {
-                        enlargedField[i, j] = new Cell(i, j);
+                        Cell cell = new(i, j)
+                        {
+                            Role = _cells[i - increment, j - increment].Role
+                        };
+                        enlargedField[i, j] = cell;
                     }
                 }
             }
