@@ -58,7 +58,6 @@ namespace Assets.TictactoeLogic.Scripts
             int min = (i - winSize < 0) ? 0 : i - winSize;
             int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
             string role = _cells[i, j].Role;
-            // Role role = _cells[i, j].Role;
             List<bool> conditions = new()
             {
                 LineCheck(role, LineType.Horizontal, min, max, jCurrent: j),
