@@ -15,3 +15,6 @@ MonoBehaviour:
   startFieldSize: 3
   enlargeFieldStep: 1
   winlineSize: 3
+  roles:
+  - X
+  - 0
