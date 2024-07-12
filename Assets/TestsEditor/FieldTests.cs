@@ -53,8 +53,8 @@ public class FieldTests
         Debug.Log(field);
         field.EnlargeField();
         Debug.Log(field);
-        Assert.AreEqual(field.Cells[1, 1].x, 1);
-        Assert.AreEqual(field.Cells[1, 1].y, 1);
+        Assert.AreEqual(field.Cells[1, 1].X, 1);
+        Assert.AreEqual(field.Cells[1, 1].Y, 1);
     }
     [Test]
     public void WinCheck_EmptyField()

@@ -6,8 +6,8 @@ namespace Assets.TictactoeLogic.Scripts
     {
         public Cell(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
         public string Role
         {
@@ -15,7 +15,7 @@ namespace Assets.TictactoeLogic.Scripts
             set { _role ??= value; }
         }
         private string _role;
-        public readonly int x;
-        public readonly int y;
+        public int X { get; private set; }
+        public int Y { get; private set; }
     }
 }
