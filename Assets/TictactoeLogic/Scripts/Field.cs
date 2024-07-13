@@ -6,8 +6,8 @@ namespace Assets.TictactoeLogic.Scripts
     {
         public Field(GameSettings gameSettings)
         {
-            _gameSettings = gameSettings;
-            var size = _gameSettings.startFieldSize;
+            this.gameSettings = gameSettings;
+            var size = this.gameSettings.startFieldSize;
             Cells = new Cell[size, size];
             for (int i = 0; i < size; i++)
             {
@@ -20,7 +20,7 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public void EnlargeField()
         {
-            var increment = _gameSettings.enlargeFieldStep;
+            var increment = gameSettings.enlargeFieldStep;
             var fieldSize = Cells.GetLength(0);
             var fieldSizeNew = increment * 2 + fieldSize;
             var enlargedField = new Cell[fieldSizeNew, fieldSizeNew];
@@ -53,7 +53,7 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public bool WinCheck(int i, int j)
         {
-            int winSize = _gameSettings.winlineSize;
+            int winSize = gameSettings.winlineSize;
             int fieldMax = Cells.GetLength(0) - 1;
             int min = (i - winSize < 0) ? 0 : i - winSize;
             int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
@@ -70,7 +70,7 @@ namespace Assets.TictactoeLogic.Scripts
         private bool LineCheck(string role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
         {
             bool result = false;
-            int winSize = _gameSettings.winlineSize;
+            int winSize = gameSettings.winlineSize;
             List<Cell> siblings = new();
             for (int x = min; x <= max; x++)
             {
@@ -131,16 +131,8 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public Cell LastChanged { get; private set; }
         public Cell[,] Cells { get; private set; }
-        public Cell[,] WinLine
-        {
-            get { return _winLine; }
-        }
-        public int Size
-        {
-            get { return Cells.GetLength(0); }
-        }
-        private readonly GameSettings _gameSettings;
-        private Cell[,] _winLine;
+        public int Size { get { return Cells.GetLength(0); } }
+        private readonly GameSettings gameSettings;
         private enum LineType
         {
             Horizontal,
