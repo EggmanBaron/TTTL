@@ -8,20 +8,20 @@ namespace Assets.TictactoeLogic.Scripts
         {
             _gameSettings = gameSettings;
             var size = _gameSettings.startFieldSize;
-            _cells = new Cell[size, size];
+            Cells = new Cell[size, size];
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
                     Cell cell = new(i, j);
-                    _cells[i, j] = cell;
+                    Cells[i, j] = cell;
                 }
             }
         }
         public void EnlargeField()
         {
             var increment = _gameSettings.enlargeFieldStep;
-            var fieldSize = _cells.GetLength(0);
+            var fieldSize = Cells.GetLength(0);
             var fieldSizeNew = increment * 2 + fieldSize;
             var enlargedField = new Cell[fieldSizeNew, fieldSizeNew];
             for (int i = 0; i < fieldSizeNew; i++)
@@ -43,21 +43,21 @@ namespace Assets.TictactoeLogic.Scripts
                     {
                         Cell cell = new(i, j)
                         {
-                            Role = _cells[i - increment, j - increment].Role
+                            Role = Cells[i - increment, j - increment].Role
                         };
                         enlargedField[i, j] = cell;
                     }
                 }
             }
-            _cells = enlargedField;
+            Cells = enlargedField;
         }
         public bool WinCheck(int i, int j)
         {
             int winSize = _gameSettings.winlineSize;
-            int fieldMax = _cells.GetLength(0) - 1;
+            int fieldMax = Cells.GetLength(0) - 1;
             int min = (i - winSize < 0) ? 0 : i - winSize;
             int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
-            string role = _cells[i, j].Role;
+            string role = Cells[i, j].Role;
             List<bool> conditions = new()
             {
                 LineCheck(role, LineType.Horizontal, min, max, jCurrent: j),
@@ -82,7 +82,7 @@ namespace Assets.TictactoeLogic.Scripts
                 else { i = x; j = max - x; }
                 i = (i < 0) ? 0 : i;
                 j = (j < 0) ? 0 : j;
-                Cell cell = _cells[i, j];
+                Cell cell = Cells[i, j];
                 if (cell.Role == role)
                 {
                     siblings.Add(cell);
@@ -94,10 +94,11 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public bool MakeMove(int i, int j, string role)
         {
-            Cell cell = _cells[i, j];
+            Cell cell = Cells[i, j];
             if (cell.Role == null)
             {
                 cell.Role = role;
+                LastChanged = cell;
                 return true;
             }
             else return false;
@@ -110,17 +111,17 @@ namespace Assets.TictactoeLogic.Scripts
             string indices = "{0}: ,";
             string newString = "\n";
             string result = beginning;
-            for (int i = 0; i < _cells.GetLength(0); i++)
+            for (int i = 0; i < Cells.GetLength(0); i++)
             {
                 result += empty;
             }
             result += newString;
-            for (int i = 0; i < _cells.GetLength(0); i++)
+            for (int i = 0; i < Cells.GetLength(0); i++)
             {
                 result += string.Format(indices, i.ToString());
-                for (int j = 0; j < _cells.GetLength(0); j++)
+                for (int j = 0; j < Cells.GetLength(0); j++)
                 {
-                    string role = _cells[i, j].Role;
+                    string role = Cells[i, j].Role;
                     if (role == null) { result += "    ,"; }
                     else { result += string.Format(marked, role[0].ToString()); }
                 }
@@ -128,19 +129,16 @@ namespace Assets.TictactoeLogic.Scripts
             }
             return result;
         }
-        public Cell[,] Cells
-        {
-            get { return _cells; }
-        }
+        public Cell LastChanged { get; private set; }
+        public Cell[,] Cells { get; private set; }
         public Cell[,] WinLine
         {
             get { return _winLine; }
         }
         public int Size
         {
-            get { return _cells.GetLength(0); }
+            get { return Cells.GetLength(0); }
         }
-        private Cell[,] _cells;
         private readonly GameSettings _gameSettings;
         private Cell[,] _winLine;
         private enum LineType
