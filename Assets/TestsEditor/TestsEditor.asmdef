@@ -3,9 +3,9 @@
     "rootNamespace": "",
     "references": [
         "Scripts",
+        "TictactoeLogic",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "TictactoeLogic"
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [
         "Editor"
