@@ -4,10 +4,8 @@ namespace Assets.TictactoeLogic.Scripts
 {
     public class Field
     {
-        public Field(GameSettings gameSettings)
+        public Field(int size)
         {
-            this.gameSettings = gameSettings;
-            var size = this.gameSettings.startFieldSize;
             Cells = new Cell[size, size];
             for (int i = 0; i < size; i++)
             {
@@ -18,9 +16,8 @@ namespace Assets.TictactoeLogic.Scripts
                 }
             }
         }
-        public void EnlargeField()
+        public void EnlargeField(int increment)
         {
-            var increment = gameSettings.enlargeFieldStep;
             var fieldSize = Cells.GetLength(0);
             var fieldSizeNew = increment * 2 + fieldSize;
             var enlargedField = new Cell[fieldSizeNew, fieldSizeNew];
@@ -51,26 +48,24 @@ namespace Assets.TictactoeLogic.Scripts
             }
             Cells = enlargedField;
         }
-        public bool WinCheck(int i, int j)
+        public bool WinCheck(int winLineSize, int i, int j)
         {
-            int winSize = gameSettings.winlineSize;
             int fieldMax = Cells.GetLength(0) - 1;
-            int min = (i - winSize < 0) ? 0 : i - winSize;
-            int max = (j + winSize > fieldMax) ? fieldMax : j + winSize;
+            int min = (i - winLineSize < 0) ? 0 : i - winLineSize;
+            int max = (j + winLineSize > fieldMax) ? fieldMax : j + winLineSize;
             string role = Cells[i, j].Role;
             List<bool> conditions = new()
             {
-                LineCheck(role, LineType.Horizontal, min, max, jCurrent: j),
-                LineCheck(role, LineType.Vertical, min, max, iCurrent: i),
-                LineCheck(role, LineType.Diagonal, min, max),
-                LineCheck(role, LineType.Antidiagonal, min, max)
+                LineCheck(winLineSize, role, LineType.Horizontal, min, max, jCurrent: j),
+                LineCheck(winLineSize, role, LineType.Vertical, min, max, iCurrent: i),
+                LineCheck(winLineSize, role, LineType.Diagonal, min, max),
+                LineCheck(winLineSize, role, LineType.Antidiagonal, min, max)
             };
             return conditions.Contains(true);
         }
-        private bool LineCheck(string role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
+        private bool LineCheck(int winLineSize, string role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
         {
             bool result = false;
-            int winSize = gameSettings.winlineSize;
             List<Cell> siblings = new();
             for (int x = min; x <= max; x++)
             {
@@ -86,7 +81,7 @@ namespace Assets.TictactoeLogic.Scripts
                 if (cell.Role == role)
                 {
                     siblings.Add(cell);
-                    if (siblings.Count >= winSize) { result = true; break; }
+                    if (siblings.Count >= winLineSize) { result = true; break; }
                 }
                 else { siblings = new(); }
             }
@@ -131,8 +126,8 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public Cell LastChanged { get; private set; }
         public Cell[,] Cells { get; private set; }
-        public int Size { get { return Cells.GetLength(0); } }
-        private readonly GameSettings gameSettings;
+        public int Dimention { get { return Cells.GetLength(0); } }
+        public int WinlineSize { get; set; }
         private enum LineType
         {
             Horizontal,
