@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.TictactoeLogic.Scripts;
 using UnityEngine;
 
 public class CellView : MonoBehaviour
 {
-    public void Show(string roleName)
+    private void Awake()
     {
-
+        RoleViews = GetComponentsInChildren<RoleView>();
+        GameObject[] goRoleViews = RoleViews.Select(goRoleView => goRoleView.gameObject).ToArray();
+        foreach (GameObject gameObject in goRoleViews) { gameObject.SetActive(false); }
     }
-    public Vector3 CellSize
+    private void Show(string roleName)
+    {
+        foreach (RoleView roleView in RoleViews)
+        {
+            if (roleView.Role == roleName) { roleView.gameObject.SetActive(true); }
+        }
+    }
+    public Vector3 Size
     {
         get
         {
@@ -26,9 +36,12 @@ public class CellView : MonoBehaviour
     public string Role
     {
         get => role;
-        set => role ??= value;
+        set
+        {
+            role = value;
+            Show(value);
+        }
     }
     private string role;
-    private Vector3 size;
-    public Dictionary<string, GameObject> roles;
+    private RoleView[] RoleViews { get; set; }
 }

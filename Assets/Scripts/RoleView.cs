@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoleView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public string Role { get; set; }
+    public int RoleIndex
     {
-        
+        get { return gameRoles.roles.IndexOf(Role); }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameSettingsRoles gameRoles;
 }

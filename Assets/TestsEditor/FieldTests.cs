@@ -5,6 +5,7 @@ using Assets.TictactoeLogic.Scripts;
 public class FieldTests
 {
     private readonly GameSettings gameSettings = Resources.Load<GameSettings>("GameSettingsDefault");
+    private readonly GameSettingsRoles gameRoles = Resources.Load<GameSettingsRoles>("GameRoles");
     private Field field;
     [Test]
     public void Field_Constructor()
@@ -16,10 +17,10 @@ public class FieldTests
     public void Field_Set_Something()
     {
         field = new(gameSettings.startFieldSize);
-        Assert.IsTrue(field.MakeMove(1, 1, gameSettings.roles[1]));
-        Assert.IsTrue(field.MakeMove(0, 0, gameSettings.roles[0]));
-        Assert.IsFalse(field.MakeMove(0, 0, gameSettings.roles[1]));
-        Assert.IsFalse(field.MakeMove(0, 0, gameSettings.roles[0]));
+        Assert.IsTrue(field.MakeMove(1, 1, gameRoles.roles[1]));
+        Assert.IsTrue(field.MakeMove(0, 0, gameRoles.roles[0]));
+        Assert.IsFalse(field.MakeMove(0, 0, gameRoles.roles[1]));
+        Assert.IsFalse(field.MakeMove(0, 0, gameRoles.roles[0]));
     }
     [Test]
     public void EnlargeField_Empty()
@@ -33,23 +34,23 @@ public class FieldTests
     public void EnlargeField_SaveRoles()
     {
         field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameSettings.roles[0]);
-        field.MakeMove(1, 1, gameSettings.roles[1]);
-        field.MakeMove(2, 2, gameSettings.roles[0]);
+        field.MakeMove(0, 0, gameRoles.roles[0]);
+        field.MakeMove(1, 1, gameRoles.roles[1]);
+        field.MakeMove(2, 2, gameRoles.roles[0]);
         Debug.Log(field);
         field.EnlargeField(gameSettings.enlargeFieldStep);
         Debug.Log(field);
-        Assert.AreEqual(field.Cells[1, 1].Role, gameSettings.roles[0]);
-        Assert.AreEqual(field.Cells[2, 2].Role, gameSettings.roles[1]);
-        Assert.AreEqual(field.Cells[3, 3].Role, gameSettings.roles[0]);
+        Assert.AreEqual(field.Cells[1, 1].Role, gameRoles.roles[0]);
+        Assert.AreEqual(field.Cells[2, 2].Role, gameRoles.roles[1]);
+        Assert.AreEqual(field.Cells[3, 3].Role, gameRoles.roles[0]);
     }
     [Test]
     public void EnlargeField_SaveIndices()
     {
         field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameSettings.roles[0]);
-        field.MakeMove(1, 1, gameSettings.roles[1]);
-        field.MakeMove(2, 2, gameSettings.roles[0]);
+        field.MakeMove(0, 0, gameRoles.roles[0]);
+        field.MakeMove(1, 1, gameRoles.roles[1]);
+        field.MakeMove(2, 2, gameRoles.roles[0]);
         Debug.Log(field);
         field.EnlargeField(gameSettings.enlargeFieldStep);
         Debug.Log(field);
@@ -68,9 +69,9 @@ public class FieldTests
     {
         field = new(gameSettings.startFieldSize);
         field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 0, gameSettings.roles[0]);
-        field.MakeMove(1, 1, gameSettings.roles[0]);
-        field.MakeMove(1, 2, gameSettings.roles[0]);
+        field.MakeMove(1, 0, gameRoles.roles[0]);
+        field.MakeMove(1, 1, gameRoles.roles[0]);
+        field.MakeMove(1, 2, gameRoles.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(gameSettings.winlineSize, 1, 1));
     }
@@ -79,9 +80,9 @@ public class FieldTests
     {
         field = new(gameSettings.startFieldSize);
         field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(0, 0, gameSettings.roles[0]);
-        field.MakeMove(1, 0, gameSettings.roles[0]);
-        field.MakeMove(2, 0, gameSettings.roles[0]);
+        field.MakeMove(0, 0, gameRoles.roles[0]);
+        field.MakeMove(1, 0, gameRoles.roles[0]);
+        field.MakeMove(2, 0, gameRoles.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(gameSettings.winlineSize, 1, 1));
     }
@@ -90,9 +91,9 @@ public class FieldTests
     {
         field = new(gameSettings.startFieldSize);
         field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 1, gameSettings.roles[0]);
-        field.MakeMove(2, 2, gameSettings.roles[0]);
-        field.MakeMove(3, 3, gameSettings.roles[0]);
+        field.MakeMove(1, 1, gameRoles.roles[0]);
+        field.MakeMove(2, 2, gameRoles.roles[0]);
+        field.MakeMove(3, 3, gameRoles.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(gameSettings.winlineSize, 3, 3));
     }
@@ -100,9 +101,9 @@ public class FieldTests
     public void WinCheck_EnlargeField_x3_CrossDiagonal()
     {
         field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameSettings.roles[0]);
-        field.MakeMove(1, 1, gameSettings.roles[0]);
-        field.MakeMove(2, 2, gameSettings.roles[0]);
+        field.MakeMove(0, 0, gameRoles.roles[0]);
+        field.MakeMove(1, 1, gameRoles.roles[0]);
+        field.MakeMove(2, 2, gameRoles.roles[0]);
         field.EnlargeField(gameSettings.enlargeFieldStep);
         field.EnlargeField(gameSettings.enlargeFieldStep);
         field.EnlargeField(gameSettings.enlargeFieldStep);
@@ -114,9 +115,9 @@ public class FieldTests
     {
         field = new(gameSettings.startFieldSize);
         field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 3, gameSettings.roles[0]);
-        field.MakeMove(2, 2, gameSettings.roles[0]);
-        field.MakeMove(3, 1, gameSettings.roles[0]);
+        field.MakeMove(1, 3, gameRoles.roles[0]);
+        field.MakeMove(2, 2, gameRoles.roles[0]);
+        field.MakeMove(3, 1, gameRoles.roles[0]);
         Debug.Log(field);
         Assert.True(field.WinCheck(gameSettings.winlineSize, 2, 2));
     }
