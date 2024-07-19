@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 40d18a8087f9f4d11af394bda0415fc9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - roleView: {fileID: 3977909346008997023, guid: 1e70c4c3439bdc34bab92de2d5af8185, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

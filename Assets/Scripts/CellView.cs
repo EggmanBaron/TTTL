@@ -9,15 +9,6 @@ public class CellView : MonoBehaviour
     private void Awake()
     {
         RoleViews = GetComponentsInChildren<RoleView>();
-        GameObject[] goRoleViews = RoleViews.Select(goRoleView => goRoleView.gameObject).ToArray();
-        foreach (GameObject gameObject in goRoleViews) { gameObject.SetActive(false); }
-    }
-    private void Show(string roleName)
-    {
-        foreach (RoleView roleView in RoleViews)
-        {
-            if (roleView.Role == roleName) { roleView.gameObject.SetActive(true); }
-        }
     }
     public Vector3 Size
     {
@@ -38,8 +29,11 @@ public class CellView : MonoBehaviour
         get => role;
         set
         {
+            foreach (RoleView roleView in RoleViews)
+            {
+                if (roleView.Role != value) { roleView.Activate(); }
+            }
             role = value;
-            Show(value);
         }
     }
     private string role;

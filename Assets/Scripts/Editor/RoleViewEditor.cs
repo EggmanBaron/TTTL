@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 namespace UnityEditor
@@ -10,9 +11,9 @@ namespace UnityEditor
             RoleView roleView = (RoleView)target;
             DrawDefaultInspector();
             if (!roleView.gameRoles) { return; }
-            string[] roles = roleView.gameRoles.roles.ToArray();
+            List<string> roles = roleView.gameRoles.roles;
             int index = (roleView.RoleIndex == -1) ? 0 : roleView.RoleIndex;
-            int selectedRoleIndex = EditorGUILayout.Popup(index, roles);
+            int selectedRoleIndex = EditorGUILayout.Popup(index, roles.ToArray());
             if (roles[selectedRoleIndex] != roleView.Role)
             {
                 roleView.Role = roles[selectedRoleIndex];

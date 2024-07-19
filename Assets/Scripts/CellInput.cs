@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CellInput : MonoBehaviour
 {
-    public delegate void ClickHandler(object sender);
+    public delegate void ClickHandler(CellInput sender);
     public event ClickHandler Click;
     protected virtual void OnClick()
     {
