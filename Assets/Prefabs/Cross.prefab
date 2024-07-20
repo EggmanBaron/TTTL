@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameRoles: {fileID: 11400000, guid: 2361e52940b2f4612bb3cebf92b91379, type: 2}
+  _role: cross
