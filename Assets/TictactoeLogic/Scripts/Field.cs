@@ -4,8 +4,9 @@ namespace Assets.TictactoeLogic.Scripts
 {
     public class Field
     {
-        public Field(int size)
+        public Field(int size, int winLineSize)
         {
+            m_winLineSize = winLineSize;
             Cells = new Cell[size, size];
             for (int i = 0; i < size; i++)
             {
@@ -48,22 +49,22 @@ namespace Assets.TictactoeLogic.Scripts
             }
             Cells = enlargedField;
         }
-        public bool WinCheck(int winLineSize, int i, int j)
+        public bool WinCheck(int i, int j)
         {
             int fieldMax = Cells.GetLength(0) - 1;
-            int min = (i - winLineSize < 0) ? 0 : i - winLineSize;
-            int max = (j + winLineSize > fieldMax) ? fieldMax : j + winLineSize;
+            int min = (m_i - m_winLineSize < 0) ? 0 : m_i - m_winLineSize;
+            int max = (m_j + m_winLineSize > fieldMax) ? fieldMax : m_j + m_winLineSize;
             string role = Cells[i, j].Role;
             List<bool> conditions = new()
             {
-                LineCheck(winLineSize, role, LineType.Horizontal, min, max, jCurrent: j),
-                LineCheck(winLineSize, role, LineType.Vertical, min, max, iCurrent: i),
-                LineCheck(winLineSize, role, LineType.Diagonal, min, max),
-                LineCheck(winLineSize, role, LineType.Antidiagonal, min, max)
+                LineCheck(LineType.Horizontal, min, max),
+                LineCheck(LineType.Vertical, min, max),
+                LineCheck(LineType.Diagonal, min, max),
+                LineCheck(LineType.Antidiagonal, min, max)
             };
             return conditions.Contains(true);
         }
-        private bool LineCheck(int winLineSize, string role, LineType lineType, int min, int max, int iCurrent = -1, int jCurrent = -1)
+        private bool LineCheck(LineType lineType, int min, int max)
         {
             bool result = false;
             List<Cell> siblings = new();
@@ -71,17 +72,17 @@ namespace Assets.TictactoeLogic.Scripts
             {
                 int i;
                 int j;
-                if (lineType == LineType.Horizontal) { i = x; j = jCurrent; }
-                else if (lineType == LineType.Vertical) { i = iCurrent; j = x; }
+                if (lineType == LineType.Horizontal) { i = x; j = m_j; }
+                else if (lineType == LineType.Vertical) { i = m_i; j = x; }
                 else if (lineType == LineType.Diagonal) { i = x; j = x; }
                 else { i = x; j = max - x; }
                 i = (i < 0) ? 0 : i;
                 j = (j < 0) ? 0 : j;
                 Cell cell = Cells[i, j];
-                if (cell.Role == role)
+                if (cell.Role == m_role)
                 {
                     siblings.Add(cell);
-                    if (siblings.Count >= winLineSize) { result = true; break; }
+                    if (siblings.Count >= m_winLineSize) { result = true; break; }
                 }
                 else { siblings = new(); }
             }
@@ -89,10 +90,13 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public bool MakeMove(int i, int j, string role)
         {
-            Cell cell = Cells[i, j];
+            m_i = i;
+            m_j = j;
+            m_role = role;
+            Cell cell = Cells[m_i, m_j];
             if (cell.Role == null)
             {
-                cell.Role = role;
+                cell.Role = m_role;
                 LastChanged = cell;
                 return true;
             }
@@ -100,24 +104,25 @@ namespace Assets.TictactoeLogic.Scripts
         }
         public override string ToString()
         {
-            string beginning = "`   ,";
-            string empty = "    ,";
-            string marked = " {0} ,";
-            string indices = "{0}: ,";
+            string beginning = "+ .";
+            string empty = "    .";
+            string indicesY = " {0} .";
+            string indicesX = "{0}: .";
+            string marked = " {0} .";
             string newString = "\n";
             string result = beginning;
             for (int i = 0; i < Cells.GetLength(0); i++)
             {
-                result += empty;
+                result += string.Format(indicesY, i.ToString());
             }
             result += newString;
             for (int i = 0; i < Cells.GetLength(0); i++)
             {
-                result += string.Format(indices, i.ToString());
+                result += string.Format(indicesX, i.ToString());
                 for (int j = 0; j < Cells.GetLength(0); j++)
                 {
                     string role = Cells[i, j].Role;
-                    if (role == null) { result += "    ,"; }
+                    if (role == null) { result += empty; }
                     else { result += string.Format(marked, role[0].ToString()); }
                 }
                 result += newString;
@@ -128,6 +133,10 @@ namespace Assets.TictactoeLogic.Scripts
         public Cell[,] Cells { get; private set; }
         public int Dimention { get { return Cells.GetLength(0); } }
         public int WinlineSize { get; set; }
+        private int m_winLineSize;
+        private int m_i;
+        private int m_j;
+        private string m_role;
         private enum LineType
         {
             Horizontal,

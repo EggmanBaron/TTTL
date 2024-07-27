@@ -4,121 +4,121 @@ using Assets.TictactoeLogic.Scripts;
 
 public class FieldTests
 {
-    private readonly GameSettings gameSettings = Resources.Load<GameSettings>("GameSettingsDefault");
-    private readonly GameSettingsRoles gameRoles = Resources.Load<GameSettingsRoles>("GameRoles");
-    private Field field;
+    private readonly GameSettings m_gameSettings = Resources.Load<GameSettings>("GameSettingsDefault");
+    private readonly GameSettingsRoles m_gameRoles = Resources.Load<GameSettingsRoles>("Roles");
+    private Field m_field;
     [Test]
     public void Field_Constructor()
     {
-        field = new(gameSettings.startFieldSize);
-        Assert.That(field.Dimention, Is.EqualTo(gameSettings.startFieldSize));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        Assert.That(m_field.Dimention, Is.EqualTo(m_gameSettings.startFieldSize));
     }
     [Test]
     public void Field_Set_Something()
     {
-        field = new(gameSettings.startFieldSize);
-        Assert.IsTrue(field.MakeMove(1, 1, gameRoles.roles[1]));
-        Assert.IsTrue(field.MakeMove(0, 0, gameRoles.roles[0]));
-        Assert.IsFalse(field.MakeMove(0, 0, gameRoles.roles[1]));
-        Assert.IsFalse(field.MakeMove(0, 0, gameRoles.roles[0]));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        Assert.IsTrue(m_field.MakeMove(1, 1, m_gameRoles.roles[1]));
+        Assert.IsTrue(m_field.MakeMove(0, 0, m_gameRoles.roles[0]));
+        Assert.IsFalse(m_field.MakeMove(0, 0, m_gameRoles.roles[1]));
+        Assert.IsFalse(m_field.MakeMove(0, 0, m_gameRoles.roles[0]));
     }
     [Test]
     public void EnlargeField_Empty()
     {
-        field = new(gameSettings.startFieldSize);
-        Debug.Log(field);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        Debug.Log(field);
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        Debug.Log(m_field);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        Debug.Log(m_field);
     }
     [Test]
     public void EnlargeField_SaveRoles()
     {
-        field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameRoles.roles[0]);
-        field.MakeMove(1, 1, gameRoles.roles[1]);
-        field.MakeMove(2, 2, gameRoles.roles[0]);
-        Debug.Log(field);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        Debug.Log(field);
-        Assert.AreEqual(field.Cells[1, 1].Role, gameRoles.roles[0]);
-        Assert.AreEqual(field.Cells[2, 2].Role, gameRoles.roles[1]);
-        Assert.AreEqual(field.Cells[3, 3].Role, gameRoles.roles[0]);
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.MakeMove(0, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 1, m_gameRoles.roles[1]);
+        m_field.MakeMove(2, 2, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        Debug.Log(m_field);
+        Assert.AreEqual(m_field.Cells[1, 1].Role, m_gameRoles.roles[0]);
+        Assert.AreEqual(m_field.Cells[2, 2].Role, m_gameRoles.roles[1]);
+        Assert.AreEqual(m_field.Cells[3, 3].Role, m_gameRoles.roles[0]);
     }
     [Test]
     public void EnlargeField_SaveIndices()
     {
-        field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameRoles.roles[0]);
-        field.MakeMove(1, 1, gameRoles.roles[1]);
-        field.MakeMove(2, 2, gameRoles.roles[0]);
-        Debug.Log(field);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        Debug.Log(field);
-        Assert.AreEqual(field.Cells[1, 1].X, 1);
-        Assert.AreEqual(field.Cells[1, 1].Y, 1);
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.MakeMove(0, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 1, m_gameRoles.roles[1]);
+        m_field.MakeMove(2, 2, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        Debug.Log(m_field);
+        Assert.AreEqual(m_field.Cells[1, 1].X, 1);
+        Assert.AreEqual(m_field.Cells[1, 1].Y, 1);
     }
     [Test]
     public void WinCheck_EmptyField()
     {
-        field = new(gameSettings.startFieldSize);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 1, 1));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        Assert.True(m_field.WinCheck(1, 1));
 
     }
     [Test]
     public void WinCheck_Horizontal()
     {
-        field = new(gameSettings.startFieldSize);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 0, gameRoles.roles[0]);
-        field.MakeMove(1, 1, gameRoles.roles[0]);
-        field.MakeMove(1, 2, gameRoles.roles[0]);
-        Debug.Log(field);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 1, 1));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.MakeMove(1, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 1, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 2, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        Assert.True(m_field.WinCheck(1, 1));
     }
     [Test]
     public void WinCheck_Vertical()
     {
-        field = new(gameSettings.startFieldSize);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(0, 0, gameRoles.roles[0]);
-        field.MakeMove(1, 0, gameRoles.roles[0]);
-        field.MakeMove(2, 0, gameRoles.roles[0]);
-        Debug.Log(field);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 1, 1));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.MakeMove(0, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(2, 0, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        Assert.True(m_field.WinCheck(1, 1));
     }
     [Test]
     public void WinCheck_EnlargeField_Once_CrossDiagonal()
     {
-        field = new(gameSettings.startFieldSize);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 1, gameRoles.roles[0]);
-        field.MakeMove(2, 2, gameRoles.roles[0]);
-        field.MakeMove(3, 3, gameRoles.roles[0]);
-        Debug.Log(field);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 3, 3));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.MakeMove(1, 1, m_gameRoles.roles[0]);
+        m_field.MakeMove(2, 2, m_gameRoles.roles[0]);
+        m_field.MakeMove(3, 3, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        Assert.True(m_field.WinCheck(3, 3));
     }
     [Test]
     public void WinCheck_EnlargeField_x3_CrossDiagonal()
     {
-        field = new(gameSettings.startFieldSize);
-        field.MakeMove(0, 0, gameRoles.roles[0]);
-        field.MakeMove(1, 1, gameRoles.roles[0]);
-        field.MakeMove(2, 2, gameRoles.roles[0]);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        Debug.Log(field);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 2, 2));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.MakeMove(0, 0, m_gameRoles.roles[0]);
+        m_field.MakeMove(1, 1, m_gameRoles.roles[0]);
+        m_field.MakeMove(2, 2, m_gameRoles.roles[0]);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        Debug.Log(m_field);
+        Assert.True(m_field.WinCheck(2, 2));
     }
     [Test]
     public void WinCheck_EnlargeField_Once_CrossAntiDiagonal()
     {
-        field = new(gameSettings.startFieldSize);
-        field.EnlargeField(gameSettings.enlargeFieldStep);
-        field.MakeMove(1, 3, gameRoles.roles[0]);
-        field.MakeMove(2, 2, gameRoles.roles[0]);
-        field.MakeMove(3, 1, gameRoles.roles[0]);
-        Debug.Log(field);
-        Assert.True(field.WinCheck(gameSettings.winlineSize, 2, 2));
+        m_field = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_field.EnlargeField(m_gameSettings.enlargeFieldStep);
+        m_field.MakeMove(1, 3, m_gameRoles.roles[0]);
+        m_field.MakeMove(2, 2, m_gameRoles.roles[0]);
+        m_field.MakeMove(3, 1, m_gameRoles.roles[0]);
+        Debug.Log(m_field);
+        Assert.True(m_field.WinCheck(2, 2));
     }
 }
