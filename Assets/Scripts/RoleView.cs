@@ -12,12 +12,12 @@ public class RoleView : MonoBehaviour
     }
     public string Role
     {
-        get { return _role; }
+        get { return m_role; }
         set
         {
             if (!Application.isPlaying)
             {
-                _role = value;
+                m_role = value;
             }
         }
     }
@@ -27,5 +27,5 @@ public class RoleView : MonoBehaviour
         set { }
     }
     public GameSettingsRoles gameRoles;
-    [SerializeField] private string _role;
+    [SerializeField] private string m_role;
 }

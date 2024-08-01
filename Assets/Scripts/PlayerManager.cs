@@ -9,14 +9,14 @@ public class PlayerManager
     {
         foreach (string role in roles)
         {
-            players.Add(new(role));
+            m_players.Add(new(role));
         }
     }
-    public Player GetActivePlayer()
+    public Player ActivePlayer { get { return m_players[0]; } }
+    public void ActivateNextPlayer()
     {
-        players.Insert(0, players[^1]);
-        players.RemoveAt(players.Count - 1);
-        return players[0];
+        m_players.Insert(0, m_players[^1]);
+        m_players.RemoveAt(m_players.Count - 1);
     }
-    private readonly List<Player> players = new();
+    private readonly List<Player> m_players = new();
 }

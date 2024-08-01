@@ -31,7 +31,7 @@ public class CellView : MonoBehaviour
         {
             foreach (RoleView roleView in RoleViews)
             {
-                if (roleView.Role != value) { roleView.Activate(); }
+                if (roleView.Role == value) { roleView.Activate(); }
             }
             role = value;
         }

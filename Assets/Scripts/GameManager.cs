@@ -5,9 +5,9 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        m_playerManager = new(gameRoles.roles);
-        m_fieldModel = new(gameSettings.startFieldSize, gameSettings.winlineSize);
-        m_fieldView = Instantiate(goFieldView).GetComponent<FieldView>();
+        m_playerManager = new(m_gameRoles.roles);
+        m_fieldModel = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
+        m_fieldView = Instantiate(m_goFieldView).GetComponent<FieldView>();
         m_fieldView.fieldModel = m_fieldModel;
         m_fieldView.CreateField();
         m_cellInputs = FindObjectsByType<CellInput>(FindObjectsSortMode.None);
@@ -18,18 +18,32 @@ public class GameManager : MonoBehaviour
     }
     private void MakeMove(CellInput sender)
     {
-        int winlineSize = gameSettings.winlineSize;
         int x = sender.X;
         int y = sender.Y;
-        if (m_fieldModel.MakeMove(x, y, m_playerManager.GetActivePlayer().Role))
+        m_playerManager.ActivateNextPlayer();
+        string role = m_playerManager.ActivePlayer.Role;
+        bool moveResult = m_fieldModel.MakeMove(x, y, role);
+        if (moveResult)
         {
+            bool weHaveaWinner = m_fieldModel.WinCheck(x, y);
             m_fieldView.UpdateFieldView();
-            m_fieldModel.WinCheck(x, y);
+            m_playerManager.ActivePlayer.IsWinner = weHaveaWinner;
+            if (weHaveaWinner)
+            {
+                foreach (CellInput cellInput in m_cellInputs)
+                {
+                    cellInput.Click -= MakeMove;
+                }
+                m_fieldView.WinAction();
+            }
         }
     }
-    public GameSettings gameSettings;
-    public GameSettingsRoles gameRoles;
-    public GameObject goFieldView;
+    [SerializeField]
+    private GameSettings m_gameSettings;
+    [SerializeField]
+    private GameSettingsRoles m_gameRoles;
+    [SerializeField]
+    private GameObject m_goFieldView;
     private CellInput[] m_cellInputs;
     private Field m_fieldModel;
     private FieldView m_fieldView;

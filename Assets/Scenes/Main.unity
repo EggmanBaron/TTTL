@@ -311,9 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae44906ba6844ff6957603d06a03e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 0c285a49b99fe4039baa2444aa224db4, type: 2}
-  gameRoles: {fileID: 11400000, guid: 2361e52940b2f4612bb3cebf92b91379, type: 2}
-  goFieldView: {fileID: 6796000319273119999, guid: 76a3f57bb258e4632808be89819a266c, type: 3}
+  m_gameSettings: {fileID: 11400000, guid: 0c285a49b99fe4039baa2444aa224db4, type: 2}
+  m_gameRoles: {fileID: 11400000, guid: 2361e52940b2f4612bb3cebf92b91379, type: 2}
+  m_goFieldView: {fileID: 6796000319273119999, guid: 76a3f57bb258e4632808be89819a266c, type: 3}
 --- !u!4 &1056030778
 Transform:
   m_ObjectHideFlags: 0

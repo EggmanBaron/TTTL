@@ -39,25 +39,29 @@ public class FieldView : MonoBehaviour
             position.z = firstCellPosition.z;
         }
     }
+    public void WinAction()
+    {
+        Debug.Log(string.Format("{0} Win!", fieldModel.LastChanged.Role));
+    }
     public void UpdateFieldView()
     {
-        if (Dimention != fieldModel.Dimention)
+        int dimention = CellViews.GetLength(0);
+        if (dimention != fieldModel.Dimention)
         {
-            int increment = fieldModel.Dimention - Dimention;
+            int increment = fieldModel.Dimention - dimention;
             Enlarge(increment);
         }
         int x = fieldModel.LastChanged.X;
         int y = fieldModel.LastChanged.Y;
+        string role = fieldModel.LastChanged.Role;
         CellView cell = CellViews[x, y].GetComponent<CellView>();
-        cell.Role = fieldModel.LastChanged.Role;
+        cell.Role = role;
     }
 
     private void Enlarge(int increment)
     {
         throw new NotImplementedException();
     }
-
-    private int Dimention { get => CellViews.GetLength(0); }
     private GameObject[,] CellViews { get; set; }
     public GameObject cell;
     public Field fieldModel;

@@ -97,7 +97,6 @@ namespace Assets.TictactoeLogic.Scripts
             if (cell.Role == null)
             {
                 cell.Role = m_role;
-                LastChanged = cell;
                 return true;
             }
             else return false;
@@ -129,11 +128,11 @@ namespace Assets.TictactoeLogic.Scripts
             }
             return result;
         }
-        public Cell LastChanged { get; private set; }
+        public Cell LastChanged { get { return Cells[m_i, m_j]; } }
         public Cell[,] Cells { get; private set; }
         public int Dimention { get { return Cells.GetLength(0); } }
-        public int WinlineSize { get; set; }
-        private int m_winLineSize;
+        public string CurrentRole { get { return m_role; } }
+        private readonly int m_winLineSize;
         private int m_i;
         private int m_j;
         private string m_role;

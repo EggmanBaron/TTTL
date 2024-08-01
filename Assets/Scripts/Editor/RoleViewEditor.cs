@@ -8,7 +8,7 @@ namespace Assets.Scripts.Editor
         SerializedProperty m_role;
         private void OnEnable()
         {
-            m_role = serializedObject.FindProperty("_role");
+            m_role = serializedObject.FindProperty("m_role");
         }
         public override void OnInspectorGUI()
         {
