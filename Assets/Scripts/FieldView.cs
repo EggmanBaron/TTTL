@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using Assets.TictactoeLogic.Scripts;
 using UnityEngine;
 
@@ -10,20 +6,19 @@ public class FieldView : MonoBehaviour
 {
     public void CreateField()
     {
-        int dimention = fieldModel.Dimention;
-        GameObject[,] gameObjects = new GameObject[dimention, dimention];
-        CellViews = gameObjects;
-        foreach (Cell cell in fieldModel.Cells)
+        int dimention = m_fieldModel.Dimention;
+        CellViews = new GameObject[dimention, dimention];
+        foreach (Cell cell in m_fieldModel.Cells)
         {
-            GameObject gameObject = Instantiate(this.cell);
+            GameObject gameObject = Instantiate(m_cell);
             CellView cellView = gameObject.GetComponent<CellView>();
             cellView.X = cell.X;
             cellView.Y = cell.Y;
             if (cellView.Role != null) { cellView.Role = cell.Role; }
-            gameObjects[cell.X, cell.Y] = gameObject;
+            CellViews[cell.X, cell.Y] = gameObject;
         }
 
-        var cellSize = cell.GetComponent<CellView>().Size;
+        var cellSize = m_cell.GetComponent<CellView>().Size;
         float x = -cellSize.x * dimention / 2;
         float z = cellSize.z * dimention / 2;
         Vector3 firstCellPosition = new() { x = x, y = 0, z = z };
@@ -32,7 +27,7 @@ public class FieldView : MonoBehaviour
         {
             for (int j = 0; j < dimention; j++)
             {
-                gameObjects[i, j].transform.position = position;
+                CellViews[i, j].transform.position = position;
                 position.z -= cellSize.z;
             }
             position.x += cellSize.x;
@@ -41,19 +36,19 @@ public class FieldView : MonoBehaviour
     }
     public void WinAction()
     {
-        Debug.Log(string.Format("{0} Win!", fieldModel.LastChanged.Role));
+        Debug.Log(string.Format("{0} Win!", m_fieldModel.LastChanged.Role));
     }
     public void UpdateFieldView()
     {
         int dimention = CellViews.GetLength(0);
-        if (dimention != fieldModel.Dimention)
+        if (dimention != m_fieldModel.Dimention)
         {
-            int increment = fieldModel.Dimention - dimention;
+            int increment = m_fieldModel.Dimention - dimention;
             Enlarge(increment);
         }
-        int x = fieldModel.LastChanged.X;
-        int y = fieldModel.LastChanged.Y;
-        string role = fieldModel.LastChanged.Role;
+        int x = m_fieldModel.LastChanged.X;
+        int y = m_fieldModel.LastChanged.Y;
+        string role = m_fieldModel.LastChanged.Role;
         CellView cell = CellViews[x, y].GetComponent<CellView>();
         cell.Role = role;
     }
@@ -63,6 +58,8 @@ public class FieldView : MonoBehaviour
         throw new NotImplementedException();
     }
     private GameObject[,] CellViews { get; set; }
-    public GameObject cell;
-    public Field fieldModel;
+    public Field FieldModel { set { m_fieldModel = value; } }
+    [SerializeField]
+    private GameObject m_cell;
+    private Field m_fieldModel;
 }

@@ -44,6 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df8bb9509b2744009611809ead1a88f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell: {fileID: 3763452654141684991, guid: 71e3dd627c983614295b21e94a5d4f32, type: 3}
-  cross: {fileID: 3977909346008997023, guid: 1e70c4c3439bdc34bab92de2d5af8185, type: 3}
-  zero: {fileID: 4467295169602093694, guid: 11f0d8b06795e9a4aa5a3e1096fdec15, type: 3}
+  m_cell: {fileID: 3763452654141684991, guid: 71e3dd627c983614295b21e94a5d4f32, type: 3}
