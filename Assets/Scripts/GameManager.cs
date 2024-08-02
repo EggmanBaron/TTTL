@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
         m_playerManager = new(m_gameRoles.roles);
         m_fieldModel = new(m_gameSettings.startFieldSize, m_gameSettings.winlineSize);
         m_fieldView = Instantiate(m_goFieldView).GetComponent<FieldView>();
-        m_fieldView.fieldModel = m_fieldModel;
+        m_fieldView.FieldModel = m_fieldModel;
         m_fieldView.CreateField();
         m_cellInputs = FindObjectsByType<CellInput>(FindObjectsSortMode.None);
         foreach (CellInput cellInput in m_cellInputs)
@@ -20,13 +20,11 @@ public class GameManager : MonoBehaviour
     {
         int x = sender.X;
         int y = sender.Y;
-        m_playerManager.ActivateNextPlayer();
         string role = m_playerManager.ActivePlayer.Role;
         bool moveResult = m_fieldModel.MakeMove(x, y, role);
         if (moveResult)
         {
             bool weHaveaWinner = m_fieldModel.WinCheck(x, y);
-            m_fieldView.UpdateFieldView();
             m_playerManager.ActivePlayer.IsWinner = weHaveaWinner;
             if (weHaveaWinner)
             {
@@ -41,6 +39,8 @@ public class GameManager : MonoBehaviour
                 m_fieldModel.EnlargeField(m_gameSettings.enlargeFieldStep);
             }
         }
+        m_fieldView.UpdateFieldView();
+        m_playerManager.ActivateNextPlayer();
     }
     [SerializeField]
     private GameSettings m_gameSettings;
