@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Codice.Client.BaseCommands;
 using UnityEngine;
 
 public class CellInput : MonoBehaviour

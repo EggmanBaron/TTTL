@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "NewGameSettings", menuName = "Tictactoe/Game Settings", order = 51)]
 public class GameSettings : ScriptableObject
 {

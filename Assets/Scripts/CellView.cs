@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Assets.TictactoeLogic.Scripts;
 using UnityEngine;
 
 public class CellView : MonoBehaviour

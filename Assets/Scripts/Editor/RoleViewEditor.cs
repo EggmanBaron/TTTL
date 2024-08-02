@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
+
 namespace Assets.Scripts.Editor
 {
     [CustomEditor(typeof(RoleView))]

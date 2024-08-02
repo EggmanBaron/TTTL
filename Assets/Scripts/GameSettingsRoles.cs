@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "NewGameSettings", menuName = "Tictactoe/Game Roles", order = 51)]
 public class GameSettingsRoles : ScriptableObject
 {
