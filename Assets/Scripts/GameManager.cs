@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
                 }
                 m_fieldView.WinAction();
             }
+            else if (m_fieldModel.IsFull())
+            {
+                m_fieldModel.EnlargeField(m_gameSettings.enlargeFieldStep);
+            }
         }
     }
     [SerializeField]

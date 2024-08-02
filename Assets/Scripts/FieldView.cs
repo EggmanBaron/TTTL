@@ -10,7 +10,7 @@ public class FieldView : MonoBehaviour
 {
     public void CreateField()
     {
-        int dimention = fieldModel.Cells.GetLength(0);
+        int dimention = fieldModel.Dimention;
         GameObject[,] gameObjects = new GameObject[dimention, dimention];
         CellViews = gameObjects;
         foreach (Cell cell in fieldModel.Cells)

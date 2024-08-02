@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GluonGui.Dialog;
 namespace Assets.TictactoeLogic.Scripts
 {
     public class Field
@@ -100,6 +101,16 @@ namespace Assets.TictactoeLogic.Scripts
                 return true;
             }
             else return false;
+        }
+        public bool IsFull()
+        {
+            bool result = true;
+            foreach (Cell cell in Cells)
+            {
+                if (cell.Role == null) result = false;
+                break;
+            }
+            return result;
         }
         public override string ToString()
         {
