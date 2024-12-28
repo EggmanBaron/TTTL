@@ -26,6 +26,6 @@ public class RoleView : MonoBehaviour
         get { return gameRoles.roles.IndexOf(Role); }
         set { }
     }
-    public GameSettingsRoles gameRoles;
+    public GameRoles gameRoles;
     [SerializeField] private string m_role;
 }

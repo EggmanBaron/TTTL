@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
-using GluonGui.Dialog;
 namespace Assets.TictactoeLogic.Scripts
 {
-    public class Field
+    public class FieldModel
     {
-        public Field(int size, int winLineSize)
+        public FieldModel(int size, int winLineSize)
         {
             m_winLineSize = winLineSize;
             Cells = new Cell[size, size];
@@ -13,8 +11,8 @@ namespace Assets.TictactoeLogic.Scripts
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Cell cell = new(i, j);
-                    Cells[i, j] = cell;
+                    // Cell cell = new(i, j);
+                    // Cells[i, j] = cell;
                 }
             }
         }
@@ -36,20 +34,78 @@ namespace Assets.TictactoeLogic.Scripts
                     };
                     if (conditions.Contains(false))
                     {
-                        enlargedField[i, j] = new Cell(i, j);
+                        // enlargedField[i, j] = new Cell(i, j);
                     }
                     else
                     {
-                        Cell cell = new(i, j)
-                        {
-                            Role = Cells[i - increment, j - increment].Role
-                        };
-                        enlargedField[i, j] = cell;
+                        // Cell cell = new(i, j)
+                        // {
+                        //     Role = Cells[i - increment, j - increment].Role
+                        // };
+                        // enlargedField[i, j] = cell;
                     }
                 }
             }
             Cells = enlargedField;
         }
+        private void AddRowTop()
+        {
+            AddRow(0, 1, Height + 1);
+        }
+
+        private void AddRowBottom()
+        {
+            AddRow(Height, 0, Height - 1);
+        }
+        private void AddRow(int iAdd, int iShiftMin, int iShiftMax)
+        {
+            int newHeight = Height + 1;
+            var enlargedField = new Cell[Width, newHeight];
+            // for (int j = 0; j < Width; j++)
+            // {
+            //     enlargedField[iAdd, j] = new Cell(iAdd, j);
+            // }
+            // for (int i = iShiftMin; i < iShiftMax; i++)
+            //     for (int j = 0; j < Width; j++)
+            //     {
+            //         Cell cell = new(i, j)
+            //         {
+            //             Role = Cells[i - 1, j].Role
+            //         };
+            //         enlargedField[i, j] = cell;
+            //     }
+        }
+        private void AddLine
+        (
+            int horizontalIndex = 0,
+            int verticalIndex = 0,
+            int iShiftMin = 0,
+            int iShiftMax = 0,
+            int jShiftMin = 0,
+            int jShiftMax = 0
+        )
+        {
+            int newHeight = (horizontalIndex == 0) ? Height : Height + 1;
+            int newWidth = (verticalIndex == 0) ? Width : Width + 1;
+            var enlargedField = new Cell[newWidth, newHeight];
+            // int iMin = 0;
+            // int iMax = 0;
+            // int jMim = 0;
+            // int jMax = 0;
+            // for (int i = iMin; i < iMax; i++)
+            // {
+            //     for (int j = jMim; j < jMax; j++)
+            //     {
+            //         enlargedField[i, j] = new(i, j);
+            //     }
+            // }
+        }
+        private void AddColumn()
+        {
+            int newWidth = Width + 1;
+            var enlargedField = new Cell[newWidth, Height];
+        }
+
         public bool WinCheck(int i, int j)
         {
             int fieldMax = Cells.GetLength(0) - 1;
@@ -95,20 +151,17 @@ namespace Assets.TictactoeLogic.Scripts
             m_j = j;
             m_role = role;
             Cell cell = Cells[m_i, m_j];
-            if (cell.Role == null)
-            {
-                cell.Role = m_role;
-                return true;
-            }
-            else return false;
+            bool result = cell.Role == null;
+            cell.Role ??= m_role;
+            return result;
         }
         public bool IsFull()
         {
             bool result = true;
             foreach (Cell cell in Cells)
             {
-                if (cell.Role == null) result = false;
-                break;
+                result = cell.Role != null;
+                if (!result) break;
             }
             return result;
         }
@@ -121,7 +174,7 @@ namespace Assets.TictactoeLogic.Scripts
             string marked = " {0} .";
             string newString = "\n";
             string result = beginning;
-            for (int i = 0; i < Cells.GetLength(0); i++)
+            for (int i = 0; i < Height; i++)
             {
                 result += string.Format(indicesY, i.ToString());
             }
@@ -147,6 +200,8 @@ namespace Assets.TictactoeLogic.Scripts
         private int m_i;
         private int m_j;
         private string m_role;
+        private int Width { get { return Cells.GetLength(0); } }
+        private int Height { get { return Cells.GetLength(1); } }
         private enum LineType
         {
             Horizontal,

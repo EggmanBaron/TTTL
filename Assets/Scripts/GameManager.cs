@@ -45,11 +45,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameSettings m_gameSettings;
     [SerializeField]
-    private GameSettingsRoles m_gameRoles;
+    private GameRoles m_gameRoles;
     [SerializeField]
     private GameObject m_goFieldView;
     private CellInput[] m_cellInputs;
-    private Field m_fieldModel;
+    private FieldModel m_fieldModel;
     private FieldView m_fieldView;
     private PlayerManager m_playerManager;
 }

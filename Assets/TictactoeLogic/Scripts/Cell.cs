@@ -1,21 +1,25 @@
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using UnityEngine;
 
 namespace Assets.TictactoeLogic.Scripts
 {
-    public class Cell
+    public struct Cell
     {
-        public Cell(int x, int y)
+        public Cell(int x, int y, string role)
         {
-            X = x;
-            Y = y;
+            Role = role;
+            Coordinate = new Vector2Int(x, y);
         }
-        public string Role
+        public Cell(Vector2Int coordinate)
         {
-            get { return _role; }
-            set { _role ??= value; }
+            Role = null;
+            Coordinate = coordinate;
         }
-        private string _role;
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public Cell(Vector2Int coordinate, string role)
+        {
+            Role = role;
+            Coordinate = coordinate;
+        }
+        public Vector2Int Coordinate { get; set; }
+        public string Role { get; set; }
     }
 }

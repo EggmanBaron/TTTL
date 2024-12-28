@@ -10,12 +10,12 @@ public class FieldView : MonoBehaviour
         CellViews = new GameObject[dimention, dimention];
         foreach (Cell cell in m_fieldModel.Cells)
         {
-            GameObject gameObject = Instantiate(m_cell);
-            CellView cellView = gameObject.GetComponent<CellView>();
-            cellView.X = cell.X;
-            cellView.Y = cell.Y;
-            if (cellView.Role != null) { cellView.Role = cell.Role; }
-            CellViews[cell.X, cell.Y] = gameObject;
+            // GameObject gameObject = Instantiate(m_cell);
+            // CellView cellView = gameObject.GetComponent<CellView>();
+            // cellView.X = cell.X;
+            // cellView.Y = cell.Y;
+            // if (cellView.Role != null) { cellView.Role = cell.Role; }
+            // CellViews[cell.X, cell.Y] = gameObject;
         }
 
         var cellSize = m_cell.GetComponent<CellView>().Size;
@@ -46,11 +46,11 @@ public class FieldView : MonoBehaviour
             int increment = m_fieldModel.Dimention - dimention;
             Enlarge(increment);
         }
-        int x = m_fieldModel.LastChanged.X;
-        int y = m_fieldModel.LastChanged.Y;
+        // int x = m_fieldModel.LastChanged.X;
+        // int y = m_fieldModel.LastChanged.Y;
         string role = m_fieldModel.LastChanged.Role;
-        CellView cell = CellViews[x, y].GetComponent<CellView>();
-        cell.Role = role;
+        // CellView cell = CellViews[x, y].GetComponent<CellView>();
+        // cell.Role = role;
     }
 
     private void Enlarge(int increment)
@@ -58,8 +58,8 @@ public class FieldView : MonoBehaviour
         throw new NotImplementedException();
     }
     private GameObject[,] CellViews { get; set; }
-    public Field FieldModel { set { m_fieldModel = value; } }
+    public FieldModel FieldModel { set { m_fieldModel = value; } }
     [SerializeField]
     private GameObject m_cell;
-    private Field m_fieldModel;
+    private FieldModel m_fieldModel;
 }
